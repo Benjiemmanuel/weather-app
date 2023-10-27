@@ -1,0 +1,83 @@
+{
+  "cities": [
+    {
+      "name": "Rivers",
+      "weather": {
+        "temp": 25,
+        "feelsLike": 27,
+        "description": "Rainy",
+        "rain": "90%",
+        "humidity": "44%",
+        "wind": 10.5
+      }
+    },
+    {
+      "name": "Akwa Ibom",
+      "weather": {
+        "temp": 25,
+        "feelsLike": 27,
+        "description": "Partly Cloudy",
+        "rain": "10%",
+        "humidity": "60%",
+        "wind": 3.5
+      }
+    },
+    {
+      "name": "Lagos",
+      "weather": {
+        "temp": 25,
+        "feelsLike": 27,
+        "description": "Mist",
+        "rain": "90%",
+        "humidity": "44%",
+        "wind": 10.5
+      }
+    },
+    {
+      "name": "Abuja",
+      "weather": {
+        "temp": 25,
+        "feelsLike": 27,
+        "description": "Sunny",
+        "rain": "90%",
+        "humidity": "44%",
+        "wind": 10.5
+      }
+    },
+    {
+      "name": "Edo",
+      "weather": {
+        "temp": 20,
+        "feelsLike": 42,
+        "description": "Rainy",
+        "rain": "70%",
+        "humidity": "34%",
+        "wind": 9.5
+      }
+    },
+    {
+      "name": "Imo",
+      "weather": {
+        "temp": 35,
+        "feelsLike": 23,
+        "description": "mist",
+        "rain": "62%",
+        "humidity": "69%",
+        "wind": 18.5
+      }
+    },
+    {
+      "name": "Ogun",
+      "weather": {
+        "temp": 16,
+        "feelsLike": 34,
+        "description": "Sunny",
+        "rain": "12%",
+        "humidity": "34%",
+        "wind": 15.5
+      }
+    }
+
+   
+  ]
+}
