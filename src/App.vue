@@ -1,5 +1,7 @@
 <template>
-  <div class="weather-app" :class="backgroundClass">
+  <div class="weather-app" :class="backgroundClass" :style="{
+    backgroundColor: 'red'
+  }">
     <div class="container">
       <div class="weather-content">
         <form class="search-location" @submit.prevent="getWeather">
@@ -25,92 +27,93 @@
 </template>
 
 <script>
-import cityWeatherData from '@/assets/cityWeatherData.json';
+import { ref, computed } from 'vue';
+import cityWeatherData from '../public/cityWeatherData.json';
 
 export default {
-  data() {
-    return {
-      cityData: cityWeatherData.cities,
-      citySearch: "",
-      weather: {
-        cityName: "",
-        temperature: "24",
-        humidity: "34%",
-        rain: "55%",
-        wind: "44",
-        feelsLike: "56",
-        description: "Broken Clouds"
+  setup() {
+    const cityData = ref(cityWeatherData.cities);
+    const citySearch = ref("");
+    const weather = ref({
+      cityName: "",
+      temperature: "24",
+      humidity: "34%",
+      rain: "55%",
+      wind: "44",
+      feelsLike: "56",
+      description: "Broken Clouds",
+    });
+
+    const getWeather = () => {
+      const searchedCity = citySearch.value.trim().toLowerCase();
+      const foundCity = cityData.value.find((city) => city.name.toLowerCase() === searchedCity);
+      if (foundCity) {
+        weather.value.cityName = foundCity.name;
+        weather.value.temperature = foundCity.weather.temp;
+        weather.value.feelsLike = foundCity.weather.feelsLike;
+        weather.value.description = foundCity.weather.description;
+        weather.value.rain = foundCity.weather.rain;
+        weather.value.humidity = foundCity.weather.humidity;
+        weather.value.wind = foundCity.weather.wind;
+        citySearch.value = "";
+      } else {
+        weather.value.cityName = "City Not Found";
+        weather.value.temperature = "0";
+        weather.value.feelsLike = "0";
+        weather.value.description = "No data available";
+        weather.value.rain = "0%";
+        weather.value.humidity = "0%";
+        weather.value.wind = "0.0";
       }
     };
-  },
-  methods: {
-    getWeather() {
-      const searchedCity = this.citySearch.trim().toLowerCase();
-      const foundCity = this.cityData.find(city => city.name.toLowerCase() === searchedCity);
-      if (foundCity) {
-        this.weather.cityName = foundCity.name;
-        this.weather.temperature = foundCity.weather.temp;
-        this.weather.feelsLike = foundCity.weather.feelsLike;
-        this.weather.description = foundCity.weather.description;
-        this.weather.rain = foundCity.weather.rain;
-        this.weather.humidity = foundCity.weather.humidity;
-        this.weather.wind = foundCity.weather.wind;
-        this.citySearch = ""; 
-      } else {
-        this.weather.cityName = "City Not Found";
-        this.weather.temperature = "0";
-        this.weather.feelsLike = "0";
-        this.weather.description = "No data available";
-        this.weather.rain = "0%";
-        this.weather.humidity = "0%";
-        this.weather.wind = "0.0";
-      }
 
-  }
-  },
-    computed: {
-    backgroundClass() {
-      const { description } = this.weather;
-
+    const backgroundClass = computed(() => {
+      const { description } = weather.value;
       if (description.toLowerCase().includes('rain')) {
         return 'rainy-background';
       } else if (description.toLowerCase().includes('cloud')) {
         return 'cloudy-background';
       } else if (description.toLowerCase().includes('mist')) {
         return 'mist-background';
-      }
-      else if (description.toLowerCase().includes('sun')) {
+      } else if (description.toLowerCase().includes('sun')) {
         return 'sunny-background';
-      }
-      else {
+      } else {
         return 'default-background';
       }
-    },
-       getLogoSrc() {
-      const { description } = this.weather;
-      
+    });
+
+    const getLogoSrc = computed(() => {
+      const { description } = weather.value;
       if (description.toLowerCase().includes('rain')) {
         return './assets/rainy-logo.png';
       } else if (description.toLowerCase().includes('cloud')) {
-        return './assets/cloudy-logo.png'; 
+        return './assets/cloudy-logo.png';
       } else if (description.toLowerCase().includes('mist')) {
         return './assets/mist-logo.png';
       } else if (description.toLowerCase().includes('sun')) {
-        return './assets/sunny-logo.png'; 
+        return './assets/sunny-logo.png';
       } else {
         return './assets/default-logo.png';
       }
-    },
-    
+    });
+
+    return {
+      citySearch,
+      getWeather,
+      weather,
+      backgroundClass,
+      getLogoSrc,
+    };
   },
 };
 </script>
 
 
+
 <style>
 @keyframes moveClouds {
   0% {
-    background-position: 0 0;
+    background-position: 0;
   }
   100% {
     background-position: 100% 0;
@@ -126,7 +129,7 @@ export default {
   justify-content: center;
   padding: 0;
   margin: 0;
-  background-image: url('./assets/sunny.webp'); 
+  background-image: url('./assets/sunny.webp');
   background-size: cover;
   animation: moveClouds 5s linear infinite;
   transition: background-image 0.5s;
